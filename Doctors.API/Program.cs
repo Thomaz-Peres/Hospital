@@ -1,4 +1,7 @@
+using Doctors.Application.Commands.CreateDoctor;
+using Doctors.Domain.Interfaces;
 using Doctors.Infrastructure;
+using Doctors.Infrastructure.Repositories;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
@@ -9,16 +12,18 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 
-builder.Services.AddMediatR(Assembly.GetExecutingAssembly());
+builder.Services.AddScoped<IDoctorRepository, DoctorRepository>();
+builder.Services.AddScoped<IPacientRepository, PacientRepository>();
+builder.Services.AddScoped<IDataSheetRepository, DataSheetRepository>();
+
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(CreateDoctorCommand).GetTypeInfo().Assembly));
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddDbContext<DataContext>(opts => opts.UseSqlServer(
-                builder.Configuration.GetConnectionString("DefaultConnection"),
-                b => b.MigrationsAssembly(typeof(DataContext)
-                     .Assembly.FullName)));
+builder.Services.AddDbContext<DataContext>(opts => 
+                opts.UseSqlServer(builder.Configuration.GetConnectionString("ctx")));
 
 var app = builder.Build();
 

@@ -1,7 +1,11 @@
-﻿namespace Doctors.Domain.Utils
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Doctors.Domain.Utils
 {
     public class Address
     {
+        [Key]
+        public int AddressId { get; set; }
         public required string ZipCode { get; set; }
         public required string Street { get; set; }
         public required string Number { get; set; }

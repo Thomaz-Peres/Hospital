@@ -1,13 +1,11 @@
-﻿using Doctors.Domain.Utils;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Doctors.Domain.Entities
 {
     public class DataSheet
     {
-        public required string PacientName { get; set; }
-        public required string  PacientCpf { get; set; }
-        public required string  CellphoneNumber { get; set; }
-        public Address? Address { get; set; }
+        [Key]
+        public int DataSheetId { get; set; }
         public string? Details { get; set; }
         public required virtual Pacient Pacient { get; set; }
         public required virtual Doctor Doctor { get; set; }
