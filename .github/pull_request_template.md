@@ -1,0 +1,3 @@
+- [ ] Project was builded
+- [ ] Tests is passing
+- [ ] Was tested
