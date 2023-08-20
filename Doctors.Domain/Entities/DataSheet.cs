@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Doctors.Domain.Entities
 {
@@ -7,8 +8,9 @@ namespace Doctors.Domain.Entities
         [Key]
         public int DataSheetId { get; set; }
         public string? Details { get; set; }
-        public required virtual Pacient Pacient { get; set; }
-        public required virtual Doctor Doctor { get; set; }
+        public virtual Pacient Pacient { get; set; }
+        public int DoctorId { get; set; }
+        public Doctor? Doctor { get; set; }
         public bool Active { get; set; } = true;
     }
 }

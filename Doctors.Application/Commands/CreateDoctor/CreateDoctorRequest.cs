@@ -1,11 +1,4 @@
-﻿using Doctors.Domain.Entities;
-using MediatR;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MediatR;
 
 namespace Doctors.Application.Commands.CreateDoctor
 {
@@ -18,6 +11,7 @@ namespace Doctors.Application.Commands.CreateDoctor
         public required string Crm { get; set; }
 
         public required string Specialty { get; set; }
+        public required string Password { get; set; }
         public bool Active { get; set; } = true;
     }
 }

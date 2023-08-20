@@ -1,4 +1,4 @@
-using Doctors.Domain.Entities;
+using System.Text.Json.Serialization;
 using Doctors.Domain.Utils;
 using MediatR;
 
@@ -6,13 +6,19 @@ namespace Doctors.Application.Commands.CreateDataSheet
 {
     public class CreateDataSheetRequest : IRequest<CreateDataSheetResponse>
     {
-        public int DataSheetId { get; set; }
-        public required string PacientName { get; set; }
-        public required string  PacientCpf { get; set; }
-        public required string  CellphoneNumber { get; set; }
-        public virtual Address? Address { get; set; }
-        public string? Details { get; set; }
-        public required Pacient Pacient { get; set; }
-        public required Doctor Doctor { get; set; }
+        public string Details { get; set; }
+        public string[] PacientImage { get; set; }
+        public PacientDto Pacient { get; set; }
+        [JsonIgnore]
+        public string DoctorIdentifier { get; set; }
+    }
+
+    public class PacientDto
+    {
+        public string Name { get; set; }
+        public string CellphoneNumber { get; set; }
+        public Address Address { get; set; }
+        public string Cpf { get; set; }
+        public bool Active { get; set; } = true;
     }
 }

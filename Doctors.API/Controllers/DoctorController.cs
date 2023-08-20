@@ -1,10 +1,6 @@
-﻿using Doctors.Application;
-using Doctors.Application.Commands.CreateDoctor;
+﻿using Doctors.Application.Commands.CreateDoctor;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Net;
 
 namespace Doctors.API.Controllers
 {

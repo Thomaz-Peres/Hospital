@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Doctors.Domain.Utils;
 
 namespace Doctors.Domain.Entities
 {
@@ -19,7 +20,8 @@ namespace Doctors.Domain.Entities
 
         [Required(ErrorMessage = "It's necessary at least one specialty")]
         public required string Specialty { get; set; }
-        public virtual List<DataSheet> DataSheets { get; set; }
+        public virtual List<DataSheet>? DataSheets { get; set; }
+        public string? UserIdentifier { get; set; }
         public bool Active { get; set; } = true;
     }
 }

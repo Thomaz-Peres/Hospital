@@ -11,8 +11,9 @@ namespace Doctors.Domain.Entities
         [Required(ErrorMessage = "Name is required")]
         [MaxLength(255, ErrorMessage = "Must contain a maximum of 255 characters")]
         public required string Name { get; set; }
-        public required string  CellphoneNumber { get; set; }
+        public required string CellphoneNumber { get; set; }
         public virtual Address? Address { get; set; }
+        public string? PacientImage { get; set; }
 
         [Required(ErrorMessage = "CPF is required")]
         public required string Cpf { get; set; }
