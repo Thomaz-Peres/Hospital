@@ -1,10 +1,10 @@
 ﻿using Doctors.Domain.Entities;
-using Doctors.Domain.Utils;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Doctors.Infrastructure
 {
-    public class DataContext : DbContext
+    public class DataContext : IdentityDbContext<User>
     {
         public DataContext()
         {
@@ -16,27 +16,39 @@ namespace Doctors.Infrastructure
         public DbSet<Doctor> Doctors { get; set; }
         public DbSet<Pacient> Pacients { get; set; }
         public DbSet<DataSheet> DataSheets { get; set; }
+        public DbSet<User> User { get; set; }
+        public DbSet<UserRole> UserRole { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
-            if (!options.IsConfigured)
-            {
-                options.UseSqlServer("Server=(localdb)\\MSSQLLocalDB;Database=Hospital;Integrated Security=True");
-            }
+            base.OnConfiguring(options);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Doctor>().HasData(new Doctor
+            modelBuilder.Entity<UserRole>().HasData(new UserRole
             {
-                DoctorId = 1,
-                Name = "Doctor Teste",
-                Cpf = "79769206008",
-                Crm = "12345",
-                Specialty = "Pediatra",
+                Id = "1",
+                Name = "Doctor",
+                NormalizedName = "DOCTOR"
             });
 
             base.OnModelCreating(modelBuilder);
+            SetIdentityTables(modelBuilder);
+        }
+
+        private static void SetIdentityTables(ModelBuilder modelBuilder)
+        {
+            foreach (var entityType in modelBuilder.Model.GetEntityTypes())
+            {
+                var tableName = entityType.GetTableName();
+
+                // Rename default AspNet identity tables
+                if (!string.IsNullOrEmpty(tableName) && tableName.StartsWith("AspNet"))
+                {
+                    entityType.SetTableName(tableName.Substring(6, tableName.Length - 7));
+                }
+            }
         }
     }
 }

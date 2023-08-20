@@ -13,7 +13,7 @@ namespace Doctors.Infrastructure.Repositories
 
         public async Task AddAsync(T obj)
         {
-            _context.Set<T>().Add(obj);
+            await _context.Set<T>().AddAsync(obj);
             await _context.SaveChangesAsync();
         }
 
@@ -22,14 +22,21 @@ namespace Doctors.Infrastructure.Repositories
             return await _context.Set<T>().FindAsync(obj);
         }
 
-        public async Task<IEnumerable<T>> GetAllAsync()
+        public async Task<IList<T>> GetAllAsync(Expression<Func<T, bool>> filterExpression, params Expression<Func<T, object>>[] includes)
         {
-            return await _context.Set<T>().ToListAsync();
+            var query = _context.Set<T>().Where(filterExpression).AsTracking().AsQueryable();
+
+            foreach (var include in includes)
+            {
+                query = query.Include(include);
+            }
+
+            return await query.ToListAsync();
         }
 
         public async Task<T?> FindAsync(Expression<Func<T, bool>> filterExpression, params Expression<Func<T, object>>[] includes)
         {
-            var query = _context.Set<T>().AsQueryable();
+            var query = _context.Set<T>().AsNoTracking().AsQueryable();
             if (filterExpression != null)
                 query = query.Where(filterExpression);
 
@@ -57,6 +64,7 @@ namespace Doctors.Infrastructure.Repositories
         public async Task UpdateAsync(T obj)
         {
             _context.Entry(obj).State = EntityState.Modified;
+
             await _context.SaveChangesAsync();
         }
     }
