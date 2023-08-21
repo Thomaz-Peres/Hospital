@@ -1,5 +1,4 @@
 using Doctors.Application.Commands;
-using Doctors.Application.Commands.CreateDataSheet;
 using Doctors.Application.Commands.CreateDoctor;
 using Doctors.Domain.Entities;
 using Doctors.Domain.Interfaces;
@@ -16,6 +15,7 @@ using Newtonsoft.Json;
 using System.Reflection;
 using System.Text;
 using System.Text.Json.Serialization;
+using Microsoft.AspNetCore.Builder;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -107,6 +107,10 @@ builder.Services.AddDbContext<DataContext>(opts =>
                 opts.UseSqlServer(builder.Configuration.GetConnectionString("ctx")));
 
 var app = builder.Build();
+
+using (var serviceScope = app.Services.CreateScope())
+    serviceScope.ServiceProvider.GetService<DataContext>().Database.Migrate();
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
