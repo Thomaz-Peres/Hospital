@@ -12,7 +12,9 @@ namespace Doctors.Application.Commands.CreateDoctor
         private readonly UserManager<User> _userManager;
         private readonly RoleManager<UserRole> _roleManager;
         private readonly IMediator _mediator;
-        public CreateDoctorCommand(IDoctorRepository doctorRepository, IMediator mediator, IUserRepository userRepository, UserManager<User> userManager, RoleManager<UserRole> roleManager)
+        public CreateDoctorCommand(IDoctorRepository doctorRepository, IMediator mediator,
+            IUserRepository userRepository, UserManager<User> userManager,
+            RoleManager<UserRole> roleManager)
         {
             _doctorRepository = doctorRepository;
             _mediator = mediator;

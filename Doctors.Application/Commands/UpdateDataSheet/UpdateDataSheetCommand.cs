@@ -8,14 +8,12 @@ namespace Doctors.Application.Commands.UpdateDataSheet
     public class UpdateDataSheetCommand : IRequestHandler<UpdateDataSheetRequest, UpdateDataSheetResponse>
     {
         private readonly IDataSheetRepository _dataSheetRepository;
-        private readonly IPacientRepository _pacientRepository;
         private readonly IMediator _mediator;
 
-        public UpdateDataSheetCommand(IDataSheetRepository dataSheetRepository, IMediator mediator, IPacientRepository pacientRepository)
+        public UpdateDataSheetCommand(IDataSheetRepository dataSheetRepository, IMediator mediator)
         {
             _dataSheetRepository = dataSheetRepository;
             _mediator = mediator;
-            _pacientRepository = pacientRepository;
         }
 
         public async Task<UpdateDataSheetResponse> Handle(UpdateDataSheetRequest request, CancellationToken cancellationToken)
@@ -33,7 +31,7 @@ namespace Doctors.Application.Commands.UpdateDataSheet
                 {
                     Name = request?.Pacient?.Name,
                     CellphoneNumber = request?.Pacient?.CellphoneNumber,
-                    Cpf = request?.Pacient?.Cpf,
+                    Cpf = dataSheet?.Pacient?.Cpf,
                     Address = request?.Pacient?.Address,
                 };
                 dataSheet.Pacient = pacient;
